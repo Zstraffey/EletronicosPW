@@ -1,31 +1,41 @@
 function buscarSugestoes() {
     const query = document.getElementById("search-box").value;
+    const suggestionsBox = document.getElementById("suggestions");
 
     if (query.length < 2) {
-        document.getElementById("suggestions").innerHTML = "";
+        suggestionsBox.style.visibility = "hidden"; 
+        suggestionsBox.innerHTML = ""; 
         return;
     }
 
     fetch(`https://api.datamuse.com/sug?s=${query}`)
         .then(response => response.json())
         .then(data => {
-            const suggestionsBox = document.getElementById("suggestions");
             suggestionsBox.innerHTML = "";
 
-            data.forEach(suggestion => {
-                const item = document.createElement("div");
-                item.classList.add("suggestion-item");
-                item.textContent = suggestion.word;
-                item.onclick = () => selecionarSugestao(suggestion.word);
-                suggestionsBox.appendChild(item);
-            });
+            if (data.length === 0) {
+                suggestionsBox.style.visibility = "hidden"; 
+            } else {
+                suggestionsBox.style.visibility = "visible"; 
+
+                data.forEach(suggestion => {
+                    const item = document.createElement("div");
+                    item.classList.add("suggestion-item");
+                    item.textContent = suggestion.word;
+                    item.onclick = () => selecionarSugestao(suggestion.word);
+                    suggestionsBox.appendChild(item);
+                });
+            }
         })
-        .catch(error => console.error("Erro ao buscar sugestões:", error));
+        .catch(error => {
+            console.error("Erro ao buscar sugestões:", error);
+            suggestionsBox.style.visibility = "hidden"; // Oculta em caso de erro
+        });
 }
 
 function selecionarSugestao(word) {
     document.getElementById("search-box").value = word;
-    document.getElementById("suggestions").innerHTML = "";
+    document.getElementById("suggestions").style.visibility = "hidden"; // Oculta ao selecionar
 }
 
 (function($) {
