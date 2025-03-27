@@ -1,3 +1,33 @@
+function buscarSugestoes() {
+    const query = document.getElementById("search-box").value;
+
+    if (query.length < 2) {
+        document.getElementById("suggestions").innerHTML = "";
+        return;
+    }
+
+    fetch(`https://api.datamuse.com/sug?s=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const suggestionsBox = document.getElementById("suggestions");
+            suggestionsBox.innerHTML = "";
+
+            data.forEach(suggestion => {
+                const item = document.createElement("div");
+                item.classList.add("suggestion-item");
+                item.textContent = suggestion.word;
+                item.onclick = () => selecionarSugestao(suggestion.word);
+                suggestionsBox.appendChild(item);
+            });
+        })
+        .catch(error => console.error("Erro ao buscar sugestões:", error));
+}
+
+function selecionarSugestao(word) {
+    document.getElementById("search-box").value = word;
+    document.getElementById("suggestions").innerHTML = "";
+}
+
 (function($) {
 	"use strict"
 
