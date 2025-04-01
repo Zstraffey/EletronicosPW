@@ -1,9 +1,65 @@
 [
     {
-        "nome": "Notebook Acer Aspire 5 Intel Core I5 12450H 8GB Ram 512GB Ssd 15,6 Ful",
+        "nome": "Notebook Acer Aspire 5 Intel Core i5 12450H 8GB RAM 512GB SSD 15,6 Full HD",
         "categoria": "Laptop",
-        "preco": 5499.99,
-        "descricao": "Notebook com tecnologia Intel Core I5, 8GB RAM, SSD 512GB, 15,6 Full HD, Windows 10 Home."
+        "preco": 3199.00,
+        "descricao": "Notebook com processador Intel Core i5 12450H, 8GB RAM, SSD 512GB, tela Full HD de 15,6 polegadas e Windows 11.",
+        "imagem": "./img/produto01.png"
+    },
+    {
+        "nome": "Notebook Lenovo Ideapad 1i Intel Core i5 1235U 8GB RAM 512GB SSD 15,6 Full HD",
+        "categoria": "Laptop",
+        "preco": 2799.00,
+        "descricao": "Notebook com processador Intel Core i5 1235U, 8GB RAM, SSD 512GB, tela Full HD de 15,6 polegadas e Windows 11.",
+        "imagem": "./img/produto02.png"
+    },
+    {
+        "nome": "Notebook Acer Nitro 5 Intel Core i5 8GB RAM 512GB SSD 15,6 Full HD",
+        "categoria": "Laptop",
+        "preco": 4579.00,
+        "descricao": "Notebook gamer com processador Intel Core i5, 8GB RAM, SSD 512GB, tela Full HD de 15,6 polegadas e Windows 11.",
+        "imagem": "./img/produto03.png"
+    },
+    {
+        "nome": "Teclado e Mouse Logitech MK235 Sem Fio",
+        "categoria": "Periférico",
+        "preco": 135.99,
+        "descricao": "Kit de teclado e mouse sem fio da Logitech, modelo MK235, compatível com Windows e macOS.",
+        "imagem": "./img/produto04.png"
+    },
+    {
+        "nome": "Mouse Profissional USB Cobra - Redragon",
+        "categoria": "Periférico",
+        "preco": 88.46,
+        "descricao": "Mouse profissional USB da Redragon, modelo Cobra, ideal para uso diário e jogos casuais.",
+        "imagem": "./img/produto05.png"
+    },
+    {
+        "nome": "WebCam Logitech HD Pro C920S",
+        "categoria": "Periférico",
+        "preco": 398.00,
+        "descricao": "WebCam Logitech HD Pro C920S, grava em Full HD, ideal para videoconferências e streaming.",
+        "imagem": "./img/produto06.png"
+    },
+    {
+        "nome": "Samsung Galaxy A55 5G 128GB Azul Escuro",
+        "categoria": "Celular",
+        "preco": 1888.00,
+        "descricao": "Smartphone Samsung Galaxy A55 5G com 128GB de armazenamento, câmera tripla de 50MP e tela Super AMOLED de 6,6\".",
+        "imagem": "./img/produto07.png"
+    },
+    {
+        "nome": "Smartphone Xiaomi Redmi Note 14 256GB Midnight Black",
+        "categoria": "Celular",
+        "preco": 1218.00,
+        "descricao": "Smartphone Xiaomi Redmi Note 14 com 256GB de armazenamento, 8GB de RAM e desempenho avançado.",
+        "imagem": "./img/produto08.png"
+    },
+    {
+        "nome": "Smartphone Motorola Moto G24 128GB Grafite",
+        "categoria": "Celular",
+        "preco": 705.75,
+        "descricao": "Smartphone Motorola Moto G24 com 128GB de armazenamento, 8GB de RAM e desempenho equilibrado.",
+        "imagem": "./img/produto09.png"
     }
-    
-]    
+]

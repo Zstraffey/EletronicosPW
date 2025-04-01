@@ -1,42 +1,48 @@
 function buscarSugestoes() {
-    const query = document.getElementById("search-box").value;
+    const query = document.getElementById("search-box").value.toLowerCase();
     const suggestionsBox = document.getElementById("suggestions");
 
     if (query.length < 2) {
-        suggestionsBox.style.visibility = "hidden"; 
-        suggestionsBox.innerHTML = ""; 
+        suggestionsBox.style.visibility = "hidden";
+        suggestionsBox.innerHTML = "";
         return;
     }
 
-    fetch(`https://api.datamuse.com/sug?s=${query}`)
+    fetch(".data/produtos.json") // Certifique-se de que este arquivo JSON está acessível
         .then(response => response.json())
         .then(data => {
             suggestionsBox.innerHTML = "";
-
-            if (data.length === 0) {
-                suggestionsBox.style.visibility = "hidden"; 
+            
+            const sugestoesFiltradas = data.filter(item =>
+                item.nome.toLowerCase().includes(query) ||
+                item.categoria.toLowerCase().includes(query)
+            );
+            
+            if (sugestoesFiltradas.length === 0) {
+                suggestionsBox.style.visibility = "hidden";
             } else {
-                suggestionsBox.style.visibility = "visible"; 
+                suggestionsBox.style.visibility = "visible";
 
-                data.forEach(suggestion => {
+                sugestoesFiltradas.forEach(sugestao => {
                     const item = document.createElement("div");
                     item.classList.add("suggestion-item");
-                    item.textContent = suggestion.word;
-                    item.onclick = () => selecionarSugestao(suggestion.word);
+                    item.textContent = sugestao.nome;
+                    item.onclick = () => selecionarSugestao(sugestao.nome);
                     suggestionsBox.appendChild(item);
                 });
             }
         })
         .catch(error => {
             console.error("Erro ao buscar sugestões:", error);
-            suggestionsBox.style.visibility = "hidden"; // Oculta em caso de erro
+            suggestionsBox.style.visibility = "hidden";
         });
 }
 
 function selecionarSugestao(word) {
     document.getElementById("search-box").value = word;
-    document.getElementById("suggestions").style.visibility = "hidden"; // Oculta ao selecionar
+    document.getElementById("suggestions").style.visibility = "hidden";
 }
+
 
 (function($) {
 	"use strict"
