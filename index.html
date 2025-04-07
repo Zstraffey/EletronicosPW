@@ -57,7 +57,7 @@
 								<div class="header-search">
 									<form onsubmit="return false;"> <!-- Evita recarregar a página -->
 										<input class="input" id="search-box" placeholder="Busque Aqui" onkeyup="buscarSugestoes()" autocomplete="off">
-										<button type="submit" class="search-btn">Pesquisar</button>
+										<button type="button" class="search-btn" onclick="loadProducts()">Pesquisar</button>
 										<div id="suggestions" class="sugestoes" style="
 											position: absolute;
 											background: white;
@@ -67,10 +67,9 @@
 											z-index: 1000;
 											border-radius: 5px;
 											box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-											visibility: hidden;
-											display: none; /* Adicionado para evitar comportamento estranho */
+											display: none; /* Mantém invisível até ter sugestões */
 											overflow-y: auto;
-											max-height: 200px; /* Limita altura para muitas sugestões */
+											max-height: 200px; /* Limita altura */
 										"></div>
 									</form>
 								</div>

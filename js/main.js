@@ -1,47 +1,63 @@
+function toggleVisibility(element, isVisible) {
+    element.style.display = isVisible ? "block" : "none";
+}
+
 function buscarSugestoes() {
     const query = document.getElementById("search-box").value.toLowerCase();
     const suggestionsBox = document.getElementById("suggestions");
 
+    // Evita exibição se a pesquisa for muito curta
     if (query.length < 2) {
-        suggestionsBox.style.visibility = "hidden";
+        toggleVisibility(suggestionsBox, false);
         suggestionsBox.innerHTML = "";
         return;
     }
 
-    fetch(".data/produtos.json") // Certifique-se de que este arquivo JSON está acessível
-        .then(response => response.json())
+    fetch("../data/produtos.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição: " + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
             suggestionsBox.innerHTML = "";
-            
+
+            // Filtra as sugestões com base no nome e na categoria
             const sugestoesFiltradas = data.filter(item =>
                 item.nome.toLowerCase().includes(query) ||
                 item.categoria.toLowerCase().includes(query)
             );
-            
+
             if (sugestoesFiltradas.length === 0) {
-                suggestionsBox.style.visibility = "hidden";
+                toggleVisibility(suggestionsBox, false);
             } else {
-                suggestionsBox.style.visibility = "visible";
+                toggleVisibility(suggestionsBox, true);
 
                 sugestoesFiltradas.forEach(sugestao => {
                     const item = document.createElement("div");
                     item.classList.add("suggestion-item");
                     item.textContent = sugestao.nome;
+
+                    // Adiciona funcionalidade ao clicar na sugestão
                     item.onclick = () => selecionarSugestao(sugestao.nome);
+
                     suggestionsBox.appendChild(item);
                 });
             }
         })
         .catch(error => {
             console.error("Erro ao buscar sugestões:", error);
-            suggestionsBox.style.visibility = "hidden";
+            toggleVisibility(suggestionsBox, false);
         });
 }
 
-function selecionarSugestao(word) {
-    document.getElementById("search-box").value = word;
-    document.getElementById("suggestions").style.visibility = "hidden";
+function selecionarSugestao(nome) {
+    document.getElementById("search-box").value = nome;
+    document.getElementById("suggestions").style.display = "none";
 }
+
+
 
 
 (function($) {
@@ -172,15 +188,20 @@ function selecionarSugestao(word) {
 	});
 
 	var priceInputMax = document.getElementById('price-max'),
-			priceInputMin = document.getElementById('price-min');
+    priceInputMin = document.getElementById('price-min');
 
-	priceInputMax.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+	if (priceInputMax) {
+		priceInputMax.addEventListener('change', function(){
+			updatePriceSlider($(this).parent() , this.value)
+		});
+	}
 
-	priceInputMin.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+		if (priceInputMin) {
+		priceInputMin.addEventListener('change', function(){
+			updatePriceSlider($(this).parent() , this.value)
+		});
+	}
+
 
 	function updatePriceSlider(elem , value) {
 		if ( elem.hasClass('price-min') ) {

@@ -1,10 +1,60 @@
 let produtosVisiveis = false;
 
+function toggleVisibility(element, isVisible) {
+    element.style.display = isVisible ? "block" : "none";
+}
+
+function buscarSugestoes() {
+    const query = document.getElementById("search-box").value.toLowerCase();
+    const suggestionsBox = document.getElementById("suggestions");
+
+    if (query.length < 2) {
+        toggleVisibility(suggestionsBox, false);
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    fetch("../data/produtos.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            suggestionsBox.innerHTML = "";
+            const sugestoesFiltradas = data.filter(item =>
+                item.nome.toLowerCase().includes(query) ||
+                item.categoria.toLowerCase().includes(query)
+            );
+
+            if (sugestoesFiltradas.length === 0) {
+                toggleVisibility(suggestionsBox, false);
+            } else {
+                toggleVisibility(suggestionsBox, true);
+                sugestoesFiltradas.forEach(sugestao => {
+                    const item = document.createElement("div");
+                    item.classList.add("suggestion-item");
+                    item.textContent = sugestao.nome;
+                    item.onclick = () => {
+                        document.getElementById("search-box").value = sugestao.nome;
+                        toggleVisibility(suggestionsBox, false);
+                    };
+                    suggestionsBox.appendChild(item);
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao buscar sugestões:", error);
+            toggleVisibility(suggestionsBox, false);
+        });
+}
+
 function loadProducts() {
+    const query = document.getElementById("search-box").value.toLowerCase();
     const produtosDiv = document.getElementById("produtos");
 
     if (produtosVisiveis) {
-
         produtosDiv.innerHTML = "";
         produtosVisiveis = false;
         return;
@@ -13,7 +63,17 @@ function loadProducts() {
     fetch("../data/produtos.json")
         .then(response => response.json())
         .then(data => {
+            const produtosFiltrados = data.filter(produto =>
+                produto.nome.toLowerCase().includes(query) ||
+                produto.categoria.toLowerCase().includes(query)
+            );
+
             produtosDiv.innerHTML = "";
+            if (produtosFiltrados.length === 0) {
+                produtosDiv.innerHTML = "<p>Nenhum produto encontrado.</p>";
+                produtosVisiveis = true;
+                return;
+            }
 
             const estruturaHTML = `
                 <div class="col-md-12">
@@ -27,14 +87,13 @@ function loadProducts() {
                     </div>
                 </div>
             `;
-
             produtosDiv.innerHTML = estruturaHTML;
 
             const listaProdutos = document.getElementById("produtos-lista");
 
-            data.forEach((produto, index) => {
+            produtosFiltrados.forEach((produto, index) => {
                 const produtoHTML = `
-                    <div class="product" style="width:70%;display: block; margin: 0 auto;  margin-bottom: 100px; margin-top: 50px">
+                    <div class="product" style="width:70%;display: block; margin: 0 auto; margin-bottom: 100px; margin-top: 50px;">
                         <div class="product-img">
                             <img src="${produto.imagem}" alt="${produto.nome}" style="width:25%; height: 25%; display: block; margin: 0 auto;">
                             <div class="product-label">
@@ -64,6 +123,7 @@ function loadProducts() {
         })
         .catch(error => console.error("Erro ao carregar produtos:", error));
 }
+
 
 let isBackgroundChanged = false;
 
